@@ -1,0 +1,75 @@
+---
+title: "Project 1 Graphs"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error=TRUE, results = 'asis')
+```
+
+```{r}
+library(readr)
+MSHS_DropoutRates <- read_csv("STAT 3220_ Project Part 1 - Sheet1.csv")
+names(MSHS_DropoutRates) <- gsub(" ", "_", names(MSHS_DropoutRates))
+#View(MSHS_DropoutRates)
+
+```
+
+## Selection of Data Rows
+
+```{r}
+#for appendix B
+head(MSHS_DropoutRates)
+```
+
+## Histogram
+
+```{r}
+hist(MSHS_DropoutRates$Annual_Drop_out_Rate, xlab="Dropout Rate", main="Histogram of Dropout Rate")
+
+```
+
+## Graphical Summary #1
+
+```{r}
+#transformed
+hist(log(MSHS_DropoutRates$Annual_Drop_out_Rate), xlab="Total dropouts", main="Reduced Skew histogram of total dropouts")
+```
+
+## Graphical Summary #2
+
+```{r}
+plot(MSHS_DropoutRates$`Average_Individual_Income_-_Karen`, MSHS_DropoutRates$Annual_Drop_out_Rate, xlab = "Average Individual Income", ylab="Drop Out Rate")
+```
+
+This graph allows us to further explore our question "Do high school students in areas with a higher individual income stay in school more frequently than those in areas with a lower personal income?" It ranges from 30,000 to 120,000 and graphs the dropout rate for each county.
+
+## Graphical Summary #3
+
+```{r}
+boxplot(Annual_Drop_out_Rate~`Rural_(0)_vs._Urban_(1)_-_Antigone`, MSHS_DropoutRates, xlab = "Rural (0) vs Urban (1)", ylab = "Drop out Rates")
+```
+
+This box plot helps us contextualize our qualitative variable of rural vs urban. This directly relates to our question of the relationship between the category of the student's county and the dropout rate for that county.
+
+## Graphical Summary #4
+
+```{r}
+par(mar = c(12, 4, 4, 2) + 0.1)
+boxplot(Annual_Drop_out_Rate~Student_Behavior, MSHS_DropoutRates, xlab = "", ylab = "Drop out Rates", las = 2)
+mtext("Student Behavior", side = 1, line = 10)  # adjusting x label
+
+```
+
+This is a box plot that plots the dropout rate of counties categorized by their highest student behavior issue.
+
+## Scatterplots
+
+*not necessarily directly related to our research questions but can be used if needed (can fix labels later)*
+
+```{r}
+for (i in names (MSHS_DropoutRates)[3:6]){
+  plot(MSHS_DropoutRates[[i]], MSHS_DropoutRates$Annual_Drop_out_Rate, xlab = i, ylab="Drop Out Rate")
+}
+
+```
