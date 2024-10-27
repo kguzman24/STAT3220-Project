@@ -27,13 +27,24 @@ head(MSHS_DropoutRates)
 ```{r}
 hist(MSHS_DropoutRates$Annual_Drop_out_Rate, xlab="Dropout Rate", main="Histogram of Dropout Rate")
 
+summary(MSHS_DropoutRates$Annual_Drop_out_Rate)
+sd_value <- sd(MSHS_DropoutRates$Annual_Drop_out_Rate, na.rm = TRUE)
+
+cat ("Standard Deviation: ", round(sd_value,3))
 ```
 
 ## Graphical Summary #1
 
 ```{r}
-#transformed
+#transformed, adding constant to avoid log(0)
+transformed_hist <- log(MSHS_DropoutRates$Annual_Drop_out_Rate+1)
+
 hist(log(MSHS_DropoutRates$Annual_Drop_out_Rate), xlab="Total dropouts", main="Reduced Skew histogram of total dropouts")
+summary(transformed_hist)
+
+transformed_sd_value <- sd(transformed_hist, na.rm = TRUE)
+
+cat ("Standard Deviation: ", round(transformed_sd_value,3))
 ```
 
 ## Graphical Summary #2
@@ -48,6 +59,8 @@ This graph allows us to further explore our question "Do high school students in
 
 ```{r}
 boxplot(Annual_Drop_out_Rate~`Rural_(0)_vs._Urban_(1)_-_Antigone`, MSHS_DropoutRates, xlab = "Rural (0) vs Urban (1)", ylab = "Drop out Rates")
+
+tapply(MSHS_DropoutRates$Annual_Drop_out_Rate, MSHS_DropoutRates$`Rural_(0)_vs._Urban_(1)_-_Antigone`, summary)
 ```
 
 This box plot helps us contextualize our qualitative variable of rural vs urban. This directly relates to our question of the relationship between the category of the student's county and the dropout rate for that county.
@@ -58,6 +71,8 @@ This box plot helps us contextualize our qualitative variable of rural vs urban.
 par(mar = c(12, 4, 4, 2) + 0.1)
 boxplot(Annual_Drop_out_Rate~Student_Behavior, MSHS_DropoutRates, xlab = "", ylab = "Drop out Rates", las = 2)
 mtext("Student Behavior", side = 1, line = 10)  # adjusting x label
+
+tapply(MSHS_DropoutRates$Annual_Drop_out_Rate, MSHS_DropoutRates$Student_Behavior, summary)
 
 ```
 
@@ -70,6 +85,8 @@ This is a box plot that plots the dropout rate of counties categorized by their 
 ```{r}
 for (i in names (MSHS_DropoutRates)[3:6]){
   plot(MSHS_DropoutRates[[i]], MSHS_DropoutRates$Annual_Drop_out_Rate, xlab = i, ylab="Drop Out Rate")
+  
 }
+round(cor(MSHS_DropoutRates[3:6], MSHS_DropoutRates$Annual_Drop_out_Rate),3)
 
 ```
