@@ -87,6 +87,6 @@ for (i in names (MSHS_DropoutRates)[3:6]){
   plot(MSHS_DropoutRates[[i]], MSHS_DropoutRates$Annual_Drop_out_Rate, xlab = i, ylab="Drop Out Rate")
   
 }
-round(cor(MSHS_DropoutRates[3:6], MSHS_DropoutRates$Annual_Drop_out_Rate),3)
+round(cor(MSHS_DropoutRates[3:6], MSHS_DropoutRates$Annual_Drop_out_Rate, use = 'pairwise.complete.obs'),3)
 
 ```
